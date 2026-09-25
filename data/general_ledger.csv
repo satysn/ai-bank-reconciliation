@@ -1,0 +1,50 @@
+entry_id,date,description,reference,amount,account
+L001,2026-09-01,Payment to Zenith Lubricants for PO-5126,RTGS880226,-160414.04,Accounts Payable
+L002,2026-09-03,Payment to Tata Steel Supply for PO-5134,RTGS880234,-176257.36,Accounts Payable
+L003,2026-09-03,Receipt from Shree Ganesh Engg against INV-2402,NEFT700102,41549.91,Accounts Receivable
+L004,2026-09-03,Payment to JSW Coils Depot for PO-5123,RTGS880223,-116665.83,Accounts Payable
+L005,2026-09-05,Receipt from Konark Projects against INV-2401,NEFT700101,225201.3,Accounts Receivable
+L006,2026-09-05,Payment to Mahanadi Packaging for PO-5131,RTGS880231,-172094.96,Accounts Payable
+L007,2026-09-06,Payment to Mahanadi Packaging for PO-5136,RTGS880236,-81933.45,Accounts Payable
+L008,2026-09-07,Payment to Zenith Lubricants for PO-5137,RTGS880237,-44195.68,Accounts Payable
+L009,2026-09-08,Receipt from Orion Infra Pvt Ltd against INV-2415,NEFT700115,247590.37,Accounts Receivable
+L010,2026-09-08,Payment to JSW Coils Depot for PO-5111,RTGS880211,-157302.22,Accounts Payable
+L011,2026-09-08,Payment to Mahanadi Packaging for PO-5103,RTGS880203,-43802.4,Accounts Payable
+L012,2026-09-09,Payment to JSW Coils Depot for PO-5105,RTGS880205,-128683.7,Accounts Payable
+L013,2026-09-09,Payment to Mahanadi Packaging for PO-5129,RTGS880229,-165146.73,Accounts Payable
+L014,2026-09-10,Payment to Zenith Lubricants for PO-5138,RTGS880238,-73481.49,Accounts Payable
+L015,2026-09-10,Receipt from Deccan Fabricators Chq 118834,CHQ118834,88000.0,Accounts Receivable
+L016,2026-09-11,Payment to Bluedart Logistics for PO-5119,RTGS880219,-160396.14,Accounts Payable
+L017,2026-09-11,Receipt from Orion Infra Pvt Ltd against INV-2406,NEFT700106,43508.36,Accounts Receivable
+L018,2026-09-12,Receipt - Orion Infra (part payment),,64250.0,Accounts Receivable
+L019,2026-09-12,Payment to Zenith Lubricants for PO-5113,RTGS880213,-169231.28,Accounts Payable
+L020,2026-09-12,Receipt from Shree Ganesh Engg against INV-2410,NEFT700110,30539.61,Accounts Receivable
+L021,2026-09-12,Receipt from Bharat Pipes Ltd against INV-2433,NEFT700133,221942.21,Accounts Receivable
+L022,2026-09-13,Receipt from Sunrise Boilers against INV-2418,NEFT700118,221564.55,Accounts Receivable
+L023,2026-09-13,Receipt from Orion Infra Pvt Ltd against INV-2412,NEFT700112,57410.44,Accounts Receivable
+L024,2026-09-13,Payment to Zenith Lubricants for PO-5109,RTGS880209,-115148.36,Accounts Payable
+L025,2026-09-13,Receipt from Orion Infra Pvt Ltd against INV-2407,NEFT700107,158856.99,Accounts Receivable
+L026,2026-09-14,Receipt from Konark Projects against INV-2428,NEFT700128,221446.18,Accounts Receivable
+L027,2026-09-16,Payment to Zenith Lubricants for PO-5188,RTGS880288,-45630.0,Accounts Payable
+L028,2026-09-17,Receipt from Bharat Pipes Ltd against INV-2439,NEFT700139,34725.96,Accounts Receivable
+L029,2026-09-17,Payment to Bluedart Logistics for PO-5132,RTGS880232,-13311.05,Accounts Payable
+L030,2026-09-18,Receipt from Sunrise Boilers against INV-2421,NEFT700121,118539.78,Accounts Receivable
+L031,2026-09-18,Receipt from Deccan Fabricators against INV-2435,NEFT700135,237775.2,Accounts Receivable
+L032,2026-09-18,Electricity bill Sep - Odisha Power Distribution,EB-SEP,-38410.0,Electricity Expense
+L033,2026-09-19,Receipt from Bharat Pipes Ltd against INV-2422,NEFT700122,137191.05,Accounts Receivable
+L034,2026-09-20,Payment to Mahanadi Packaging for PO-5125,RTGS880225,-156332.55,Accounts Payable
+L035,2026-09-21,Receipt from Orion Infra Pvt Ltd against INV-2400,NEFT700100,76325.13,Accounts Receivable
+L036,2026-09-21,Payment to Zenith Lubricants for PO-5116,RTGS880216,-65128.06,Accounts Payable
+L037,2026-09-21,Payment to JSW Coils Depot for PO-5114,RTGS880214,-100803.78,Accounts Payable
+L038,2026-09-21,Payment to JSW Coils Depot for PO-5104,RTGS880204,-86365.54,Accounts Payable
+L039,2026-09-21,Payment to Mahanadi Packaging for PO-5130,RTGS880230,-113524.94,Accounts Payable
+L040,2026-09-21,Receipt from Bharat Pipes Ltd against INV-2420,NEFT700120,76724.33,Accounts Receivable
+L041,2026-09-22,Receipt from Sunrise Boilers against INV-2455,NEFT700455,73900.0,Accounts Receivable
+L042,2026-09-23,Receipt from Sunrise Boilers against INV-2455,NEFT700455,73900.0,Accounts Receivable
+L043,2026-09-25,Receipt from Shree Ganesh Engg against INV-2417,NEFT700117,205160.53,Accounts Receivable
+L044,2026-09-25,Payment to Odisha Power Distribution for PO-5127,RTGS880227,-28963.87,Accounts Payable
+L045,2026-09-26,Payment to Mahanadi Packaging for PO-5108,RTGS880208,-31220.45,Accounts Payable
+L046,2026-09-26,Receipt from Shree Ganesh Engg against INV-2424,NEFT700124,108496.48,Accounts Receivable
+L047,2026-09-28,Salaries for September 2026,SAL-0926,-412600.0,Salaries Payable
+L048,2026-09-29,Chq 004512 to Mahanadi Packaging,CHQ004512,-57800.0,Accounts Payable
+L049,2026-09-30,Chq deposited - Konark Projects INV-2471,DEP-3009,121500.0,Accounts Receivable
