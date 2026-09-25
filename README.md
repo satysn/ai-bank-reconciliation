@@ -17,7 +17,6 @@ Month-end bank reconciliation, the job of proving that the company's cash book a
 ```bash
 pip install -r requirements.txt
 python data/generate_sample_data.py     # (re)creates the sample CSVs
-streamlit run app.py                    # UI at http://localhost:8501
 uvicorn api:app --reload                # API, docs at http://127.0.0.1:8000/docs
 python -m pytest -q                     # 14 tests
 ```
@@ -32,6 +31,23 @@ export OPENAI_API_KEY=...
 ```
 On Windows PowerShell, use `$env:GEMINI_API_KEY="..."`.
 
+### Two front ends, one API
+
+Both talk to the same `api.py` and never touch the matching logic directly.
+
+- **React** (primary UI): a real interactive app — live filtering, AI
+  explanations, an approval flow and a grounded chat, all built on top of the
+  REST API.
+  ```bash
+  cd frontend
+  npm install
+  npm run dev              # http://localhost:5173 (needs uvicorn running too)
+  ```
+- **Streamlit** (still works, useful for quick one-off exploration):
+  ```bash
+  streamlit run app.py     # http://localhost:8501
+  ```
+
 ## Project layout
 
 ```
@@ -41,7 +57,9 @@ recon/
   report.py    Bank Reconciliation Statement + proposed journal entries
   ai.py        LLM explanations, grounded Q&A, schema + amount guardrails
 app.py         Streamlit UI (reconciliation, exceptions, approvals, chat)
-api.py         FastAPI REST endpoints
+api.py         FastAPI REST endpoints (CORS-enabled for the React app)
+frontend/      React + TypeScript UI (Vite, Tailwind, TanStack Query) — talks
+               to api.py over REST; see frontend/README or App.tsx to start
 data/          sample-data generator + September 2026 sample files
 tests/         pytest suite (engine, BRS math, AI guardrails with a fake LLM, API)
 ```
