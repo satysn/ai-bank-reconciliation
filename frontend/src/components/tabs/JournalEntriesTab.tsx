@@ -41,7 +41,7 @@ export function JournalEntriesTab({
         Proposed adjusting entries. Nothing is posted until a reviewer approves it.
       </p>
       <Table>
-        <thead className="bg-slate-900 text-xs uppercase tracking-wide text-slate-400">
+        <thead className="bg-white/[0.03] text-xs uppercase tracking-wide text-slate-400">
           <tr>
             <th className="px-3 py-2 text-left">Approve</th>
             <th className="px-3 py-2 text-left">Exception</th>
@@ -51,29 +51,36 @@ export function JournalEntriesTab({
             <th className="px-3 py-2 text-left">Narration</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-800">
-          {entries.map((e) => (
-            <tr key={e.exception_id} className="hover:bg-slate-900/60">
-              <td className="px-3 py-2">
-                <input
-                  type="checkbox"
-                  checked={approved.has(e.exception_id)}
-                  onChange={() => onToggle(e.exception_id)}
-                  className="h-4 w-4 accent-indigo-500"
-                />
-              </td>
-              <td className="px-3 py-2 text-slate-300">{e.exception_id}</td>
-              <td className="px-3 py-2 text-slate-300">{e.debit_account}</td>
-              <td className="px-3 py-2 text-slate-300">{e.credit_account}</td>
-              <td className="px-3 py-2 text-right font-mono text-slate-200">{formatInr(e.amount)}</td>
-              <td className="px-3 py-2 text-slate-400">{e.narration}</td>
-            </tr>
-          ))}
+        <tbody className="divide-y divide-white/10">
+          {entries.map((e) => {
+            const isApproved = approved.has(e.exception_id)
+            return (
+              <tr
+                key={e.exception_id}
+                className={`transition-colors ${isApproved ? "bg-emerald-500/[0.06]" : "hover:bg-white/[0.04]"}`}
+              >
+                <td className="px-3 py-2">
+                  <input
+                    type="checkbox"
+                    checked={isApproved}
+                    onChange={() => onToggle(e.exception_id)}
+                    className="h-4 w-4 accent-indigo-500"
+                  />
+                </td>
+                <td className="px-3 py-2 font-mono text-slate-400">{e.exception_id}</td>
+                <td className="px-3 py-2 text-slate-300">{e.debit_account}</td>
+                <td className="px-3 py-2 text-slate-300">{e.credit_account}</td>
+                <td className="px-3 py-2 text-right font-mono text-slate-200">{formatInr(e.amount)}</td>
+                <td className="px-3 py-2 text-slate-400">{e.narration}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </Table>
       <div className="flex items-center justify-between">
         <span className="text-sm text-slate-400">
-          Approved {approvedRows.length} of {entries.length}
+          Approved <span className="font-semibold text-emerald-400">{approvedRows.length}</span> of{" "}
+          {entries.length}
         </span>
         <Button onClick={download} disabled={approvedRows.length === 0}>
           Download approved entries (CSV)

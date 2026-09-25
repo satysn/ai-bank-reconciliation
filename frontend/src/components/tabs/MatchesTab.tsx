@@ -32,7 +32,7 @@ export function MatchesTab({ matches }: { matches: MatchRow[] }) {
         or similar description but a different amount (flagged as an exception).
       </p>
       <Table>
-        <thead className="bg-slate-900 text-xs uppercase tracking-wide text-slate-400">
+        <thead className="bg-white/[0.03] text-xs uppercase tracking-wide text-slate-400">
           <tr>
             {COLUMNS.map((c) => (
               <th key={c.key} className="whitespace-nowrap px-3 py-2 text-left">
@@ -41,9 +41,9 @@ export function MatchesTab({ matches }: { matches: MatchRow[] }) {
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-800">
+        <tbody className="divide-y divide-white/10">
           {matches.map((m, i) => (
-            <tr key={`${m.txn_id}-${m.entry_id}-${i}`} className="hover:bg-slate-900/60">
+            <tr key={`${m.txn_id}-${m.entry_id}-${i}`} className="transition-colors hover:bg-white/[0.04]">
               {COLUMNS.map((c) =>
                 c.key === "match_pass" ? (
                   <td key={c.key} className="whitespace-nowrap px-3 py-2">

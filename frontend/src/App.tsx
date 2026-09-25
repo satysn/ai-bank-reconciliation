@@ -11,13 +11,14 @@ import { JournalEntriesTab } from "./components/tabs/JournalEntriesTab"
 import { MatchesTab } from "./components/tabs/MatchesTab"
 import { AskAiTab } from "./components/tabs/AskAiTab"
 import { ErrorBanner, Spinner } from "./components/ui"
+import { AlertIcon, ChatIcon, LedgerIcon, LinkIcon, ScaleIcon } from "./components/icons"
 
 const TABS = [
-  { id: "brs", label: "Reconciliation statement" },
-  { id: "exceptions", label: "Exceptions" },
-  { id: "journal", label: "Journal entries" },
-  { id: "matches", label: "Matches" },
-  { id: "ask", label: "Ask AI" },
+  { id: "brs", label: "Reconciliation statement", icon: ScaleIcon },
+  { id: "exceptions", label: "Exceptions", icon: AlertIcon },
+  { id: "journal", label: "Journal entries", icon: LedgerIcon },
+  { id: "matches", label: "Matches", icon: LinkIcon },
+  { id: "ask", label: "Ask AI", icon: ChatIcon },
 ] as const
 type TabId = (typeof TABS)[number]["id"]
 
@@ -81,13 +82,23 @@ export default function App() {
   const data = reconcileQuery.data
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <header className="border-b border-slate-800 px-6 py-5">
-        <h1 className="text-2xl font-bold text-slate-50">AI Bank Reconciliation Assistant</h1>
-        <p className="mt-1 max-w-3xl text-sm text-slate-400">
-          Matches bank statement lines to ledger entries, classifies the differences, and uses an
-          LLM to explain them and draft adjusting entries for approval.
-        </p>
+    <div className="min-h-screen">
+      <header className="border-b border-white/10 px-6 py-6">
+        <div className="mx-auto flex max-w-7xl items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-900/40">
+            <ScaleIcon className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight">
+              <span className="gradient-text">AI Bank Reconciliation</span>{" "}
+              <span className="text-slate-100">Assistant</span>
+            </h1>
+            <p className="mt-0.5 max-w-3xl text-sm text-slate-400">
+              Matches bank statement lines to ledger entries, classifies the differences, and uses
+              an LLM to explain them and draft adjusting entries for approval.
+            </p>
+          </div>
+        </div>
       </header>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-6 lg:flex-row">
@@ -109,7 +120,7 @@ export default function App() {
 
         <main className="flex-1 min-w-0">
           {source === "upload" && (!bankFile || !ledgerFile) && (
-            <div className="rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm text-slate-400">
+            <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.02] px-4 py-6 text-center text-sm text-slate-400">
               Upload both files in the sidebar to start.
             </div>
           )}
@@ -127,7 +138,7 @@ export default function App() {
           )}
 
           {data && (
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 animate-fade-in-up">
               <div className="relative">
                 {reconcileQuery.isFetching && (
                   <div className="absolute -top-2 right-0 flex items-center gap-1 text-xs text-slate-500">
@@ -140,32 +151,37 @@ export default function App() {
                 />
               </div>
 
-              <div className="flex gap-1 overflow-x-auto border-b border-slate-800">
-                {TABS.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setActiveTab(t.id)}
-                    className={`whitespace-nowrap border-b-2 px-3 py-2 text-sm font-medium transition-colors ${
-                      activeTab === t.id
-                        ? "border-indigo-500 text-slate-50"
-                        : "border-transparent text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
+              <div className="flex gap-1 overflow-x-auto rounded-xl border border-white/10 bg-white/[0.03] p-1">
+                {TABS.map((t) => {
+                  const Icon = t.icon
+                  const isActive = activeTab === t.id
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => setActiveTab(t.id)}
+                      className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
+                        isActive
+                          ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-900/40"
+                          : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {t.label}
+                    </button>
+                  )
+                })}
               </div>
 
               {/* All tab panels stay mounted so AI explanations, chat history, and
                   approvals survive switching tabs; only remounted (via key) when
                   the underlying dataset/config actually changes. */}
-              <div className={activeTab === "brs" ? "" : "hidden"}>
+              <div className={activeTab === "brs" ? "animate-fade-in-up" : "hidden"}>
                 <ReconciliationTab brs={data.bank_reconciliation_statement} />
               </div>
-              <div className={activeTab === "exceptions" ? "" : "hidden"}>
+              <div className={activeTab === "exceptions" ? "animate-fade-in-up" : "hidden"}>
                 <ExceptionsTab key={resultKey} exceptions={data.exceptions} ctx={ctx} />
               </div>
-              <div className={activeTab === "journal" ? "" : "hidden"}>
+              <div className={activeTab === "journal" ? "animate-fade-in-up" : "hidden"}>
                 <JournalEntriesTab
                   entries={data.proposed_journal_entries}
                   approved={approved}
@@ -178,10 +194,10 @@ export default function App() {
                   }
                 />
               </div>
-              <div className={activeTab === "matches" ? "" : "hidden"}>
+              <div className={activeTab === "matches" ? "animate-fade-in-up" : "hidden"}>
                 <MatchesTab matches={data.matches} />
               </div>
-              <div className={activeTab === "ask" ? "" : "hidden"}>
+              <div className={activeTab === "ask" ? "animate-fade-in-up" : "hidden"}>
                 <AskAiTab key={resultKey} ctx={ctx} openingBalance={openingBalance} />
               </div>
             </div>

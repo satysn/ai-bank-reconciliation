@@ -3,6 +3,7 @@ import { explain as explainApi } from "../../api/client"
 import type { Explanation, ExceptionRow, ReconContext } from "../../api/types"
 import { EXCEPTION_LABELS } from "../../api/types"
 import { formatInr } from "../../format"
+import { SparkleIcon } from "../icons"
 import { Badge, Button, ErrorBanner, Spinner } from "../ui"
 
 const CONFIDENCE_TONE: Record<string, "good" | "warn" | "bad"> = {
@@ -11,9 +12,18 @@ const CONFIDENCE_TONE: Record<string, "good" | "warn" | "bad"> = {
   low: "bad",
 }
 
+const FIXES_ACCENT: Record<string, string> = {
+  books: "before:bg-amber-500",
+  bank_side: "before:bg-sky-500",
+  investigate: "before:bg-rose-500",
+}
+
 function ExplanationView({ x }: { x: Explanation }) {
   return (
-    <div className="mt-3 flex flex-col gap-2 rounded-lg border border-slate-800 bg-slate-950/60 p-3 text-sm">
+    <div className="mt-3 flex flex-col gap-2 rounded-xl border border-indigo-500/20 bg-indigo-500/[0.04] p-4 text-sm">
+      <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-indigo-300">
+        <SparkleIcon className="h-3.5 w-3.5" /> AI explanation
+      </div>
       <p>
         <span className="font-semibold text-slate-200">What happened: </span>
         <span className="text-slate-300">{x.explanation}</span>
@@ -32,7 +42,7 @@ function ExplanationView({ x }: { x: Explanation }) {
         <span>entry check: {x.validation}</span>
       </div>
       {x.journal_entry && (
-        <pre className="overflow-x-auto rounded-md bg-slate-950 p-3 font-mono text-xs text-slate-300">
+        <pre className="overflow-x-auto rounded-lg border border-white/10 bg-black/40 p-3 font-mono text-xs text-slate-300">
 {`Dr  ${x.journal_entry.debit_account.padEnd(32)} ${x.journal_entry.amount.toFixed(2).padStart(12)}
     Cr  ${x.journal_entry.credit_account.padEnd(28)} ${x.journal_entry.amount.toFixed(2).padStart(12)}
 (${x.journal_entry.narration})`}
@@ -102,7 +112,9 @@ export function ExceptionsTab({
               <Spinner className="h-4 w-4" /> Explaining {explainAllProgress}...
             </span>
           ) : (
-            "Explain all exceptions with AI"
+            <span className="flex items-center gap-1.5">
+              <SparkleIcon className="h-4 w-4" /> Explain all exceptions with AI
+            </span>
           )}
         </Button>
       </div>
@@ -113,23 +125,33 @@ export function ExceptionsTab({
           const isLoading = loading.has(e.exception_id)
           const explanation = explanations[e.exception_id]
           const error = errors[e.exception_id]
+          const accent = FIXES_ACCENT[e.fixes] ?? "before:bg-slate-500"
           return (
-            <div key={e.exception_id} className="rounded-lg border border-slate-800 bg-slate-900/60">
+            <div
+              key={e.exception_id}
+              className={`relative overflow-hidden rounded-xl border border-white/10 bg-slate-900/50 transition-colors hover:border-white/20 before:absolute before:inset-y-0 before:left-0 before:w-1 ${accent}`}
+            >
               <button
                 onClick={() => toggle(e.exception_id)}
-                className="flex w-full items-center justify-between px-4 py-3 text-left"
+                className="flex w-full items-center justify-between px-4 py-3 pl-5 text-left"
               >
                 <span className="text-sm text-slate-200">
-                  <span className="font-mono text-slate-400">{e.exception_id}</span>
+                  <span className="font-mono text-slate-500">{e.exception_id}</span>
                   {" · "}
                   {EXCEPTION_LABELS[e.type] ?? e.type}
                   {" · "}
-                  <span className="font-mono">{formatInr(e.amount)}</span>
+                  <span className={`font-mono ${e.amount < 0 ? "text-rose-300" : "text-emerald-300"}`}>
+                    {formatInr(e.amount)}
+                  </span>
                 </span>
-                <span className="text-slate-500">{isOpen ? "−" : "+"}</span>
+                <span
+                  className={`text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-45" : ""}`}
+                >
+                  +
+                </span>
               </button>
               {isOpen && (
-                <div className="border-t border-slate-800 px-4 py-3">
+                <div className="border-t border-white/10 px-4 py-3 pl-5">
                   <p className="text-sm text-slate-300">{e.detail}</p>
                   <div className="mt-3">
                     <Button
@@ -142,7 +164,9 @@ export function ExceptionsTab({
                           <Spinner className="h-4 w-4" /> Thinking...
                         </span>
                       ) : (
-                        "Explain with AI"
+                        <span className="flex items-center gap-1.5">
+                          <SparkleIcon className="h-4 w-4 text-indigo-400" /> Explain with AI
+                        </span>
                       )}
                     </Button>
                   </div>

@@ -1,4 +1,5 @@
 import type { HealthResponse } from "../api/types"
+import { ScaleIcon, SparkleIcon, UploadIcon } from "./icons"
 import { Badge, Card } from "./ui"
 
 interface SidebarProps {
@@ -15,6 +16,15 @@ interface SidebarProps {
   pct: number
   onPctChange: (v: number) => void
   health?: HealthResponse
+}
+
+function SectionTitle({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <h2 className="mb-3 flex items-center gap-1.5 text-sm font-semibold text-slate-200">
+      <span className="text-indigo-400">{icon}</span>
+      {children}
+    </h2>
+  )
 }
 
 export function Sidebar({
@@ -35,14 +45,16 @@ export function Sidebar({
   return (
     <aside className="flex w-full flex-col gap-5 lg:w-72 lg:shrink-0">
       <Card>
-        <h2 className="mb-3 text-sm font-semibold text-slate-200">Data</h2>
-        <div className="mb-3 flex rounded-lg bg-slate-800 p-1 text-sm">
+        <SectionTitle icon={<UploadIcon className="h-4 w-4" />}>Data</SectionTitle>
+        <div className="mb-3 flex rounded-lg bg-black/30 p-1 text-sm ring-1 ring-inset ring-white/5">
           {(["sample", "upload"] as const).map((s) => (
             <button
               key={s}
               onClick={() => onSourceChange(s)}
-              className={`flex-1 rounded-md px-2 py-1.5 transition-colors ${
-                source === s ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-200"
+              className={`flex-1 rounded-md px-2 py-1.5 transition-all ${
+                source === s
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow shadow-indigo-900/40"
+                  : "text-slate-400 hover:text-slate-200"
               }`}
             >
               {s === "sample" ? "Sample month" : "Upload CSVs"}
@@ -50,16 +62,16 @@ export function Sidebar({
           ))}
         </div>
         {source === "upload" && (
-          <div className="flex flex-col gap-2 text-sm">
+          <div className="flex flex-col gap-3 text-sm">
             <label className="flex flex-col gap-1">
               <span className="text-xs text-slate-400">Bank statement CSV</span>
               <input
                 type="file"
                 accept=".csv"
                 onChange={(e) => e.target.files?.[0] && onBankFile(e.target.files[0])}
-                className="text-xs text-slate-300 file:mr-2 file:rounded-md file:border-0 file:bg-slate-700 file:px-2 file:py-1 file:text-slate-100"
+                className="text-xs text-slate-300 file:mr-2 file:rounded-md file:border-0 file:bg-white/10 file:px-2 file:py-1 file:text-slate-100 file:transition-colors hover:file:bg-white/20"
               />
-              {bankFileName && <span className="text-xs text-emerald-400">{bankFileName}</span>}
+              {bankFileName && <span className="text-xs text-emerald-400">✓ {bankFileName}</span>}
             </label>
             <label className="flex flex-col gap-1">
               <span className="text-xs text-slate-400">General ledger CSV</span>
@@ -67,11 +79,11 @@ export function Sidebar({
                 type="file"
                 accept=".csv"
                 onChange={(e) => e.target.files?.[0] && onLedgerFile(e.target.files[0])}
-                className="text-xs text-slate-300 file:mr-2 file:rounded-md file:border-0 file:bg-slate-700 file:px-2 file:py-1 file:text-slate-100"
+                className="text-xs text-slate-300 file:mr-2 file:rounded-md file:border-0 file:bg-white/10 file:px-2 file:py-1 file:text-slate-100 file:transition-colors hover:file:bg-white/20"
               />
-              {ledgerFileName && <span className="text-xs text-emerald-400">{ledgerFileName}</span>}
+              {ledgerFileName && <span className="text-xs text-emerald-400">✓ {ledgerFileName}</span>}
             </label>
-            <p className="text-[11px] leading-snug text-slate-500">
+            <p className="rounded-lg bg-black/20 p-2 text-[11px] leading-snug text-slate-500">
               Bank: txn_id, date, description, reference, amount
               <br />
               Ledger: entry_id, date, description, reference, amount, account
@@ -88,17 +100,17 @@ export function Sidebar({
             value={openingBalance}
             step={10000}
             onChange={(e) => onOpeningBalanceChange(Number(e.target.value))}
-            className="rounded-md border border-slate-700 bg-slate-950 px-2 py-1.5 text-slate-100"
+            className="rounded-lg border border-white/10 bg-black/30 px-2.5 py-1.5 text-slate-100 outline-none transition-colors focus:border-indigo-500"
           />
         </label>
       </Card>
 
       <Card>
-        <h2 className="mb-3 text-sm font-semibold text-slate-200">Matching rules</h2>
-        <label className="mb-3 flex flex-col gap-1 text-sm">
+        <SectionTitle icon={<ScaleIcon className="h-4 w-4" />}>Matching rules</SectionTitle>
+        <label className="mb-4 flex flex-col gap-2 text-sm">
           <span className="flex justify-between text-slate-300">
             <span>Date window (days)</span>
-            <span className="text-slate-500">{windowDays}</span>
+            <span className="rounded bg-white/5 px-1.5 text-xs text-indigo-300">{windowDays}</span>
           </span>
           <input
             type="range"
@@ -106,13 +118,12 @@ export function Sidebar({
             max={10}
             value={windowDays}
             onChange={(e) => onWindowChange(Number(e.target.value))}
-            className="accent-indigo-500"
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm">
+        <label className="flex flex-col gap-2 text-sm">
           <span className="flex justify-between text-slate-300">
             <span>"Near amount" tolerance (%)</span>
-            <span className="text-slate-500">{pct}</span>
+            <span className="rounded bg-white/5 px-1.5 text-xs text-indigo-300">{pct}</span>
           </span>
           <input
             type="range"
@@ -121,13 +132,12 @@ export function Sidebar({
             step={0.5}
             value={pct}
             onChange={(e) => onPctChange(Number(e.target.value))}
-            className="accent-indigo-500"
           />
         </label>
       </Card>
 
       <Card>
-        <h2 className="mb-2 text-sm font-semibold text-slate-200">AI</h2>
+        <SectionTitle icon={<SparkleIcon className="h-4 w-4" />}>AI</SectionTitle>
         {!health ? (
           <span className="text-xs text-slate-500">Checking...</span>
         ) : health.ai_provider === "rules" ? (
