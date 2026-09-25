@@ -22,6 +22,7 @@ CSV text in memory from its own file picker.
 from __future__ import annotations
 
 import io
+import os
 from pathlib import Path
 from typing import Optional
 
@@ -37,9 +38,15 @@ from recon.report import brs, proposed_entries
 DATA = Path(__file__).parent / "data"
 app = FastAPI(title="AI Bank Reconciliation Assistant", version="1.0")
 
+# Local Vite dev server is always allowed; a deployed frontend's origin
+# (e.g. https://your-app.vercel.app) is added via ALLOWED_ORIGINS so this
+# doesn't need a code change per deployment.
+DEFAULT_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
+extra_origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "").split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=DEFAULT_ORIGINS + extra_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
